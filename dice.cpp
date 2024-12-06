@@ -5,13 +5,13 @@ Dice :: Dice() {
 }
 
 int Dice :: roll() {
-    /* for(int i = 0; i < 4; i++) {
+    for(int i = 0; i < 3; i++) {
         cout << ".";
-        this_thread::sleep_for(chrono::milliseconds(750));
+        Sleep(750);
+        // sleep(750) -- for unistd.h (linux)
     }
-    cout << "\n"; */
     
     int val = rand() % 6 + 1;
-    cout << "got " << val << "\n";
+    cout << " got " << val << "\n";
     return val;
 }

@@ -24,6 +24,16 @@ Game :: Game(int playerCount) : playerCount(playerCount) {
 }
 
 void Game :: play() {
+    cout << "------------------------------------------\n";
+    cout << "Starting the game";
+    for(int i = 0; i < 4; i++) {
+        cout << ".";
+        Sleep(1000);
+        // sleep(1000) -- for unistd.h (linux)
+    }
+    cout << "\n";
+    cout << "------------------------------------------\n";
+
     while (true) {
         for (Player &player : players) {
             if(player.cash < 0) {
@@ -60,6 +70,8 @@ void Game :: play() {
 
             player.move(rollResult);
             cout << player.name << " has moved to tile " << player.currentLocation + 1 << ".\n";
+            
+            cout << "------------------------------------------\n";
 
             Tile *currentTile = board.tiles[player.currentLocation];
             currentTile->landOn(player, players, bank);
@@ -84,13 +96,14 @@ void Game :: play() {
                 player.printDetails();
             }
 
-            cout << "------------------------------------------\n\n";
+            cout << "------------------------------------------\n";
 
-            /* for(int i = 0; i < 4; i++) {
+            for(int i = 0; i < 4; i++) {
                 cout << ".";
-                this_thread::sleep_for(chrono::milliseconds(750));
+                Sleep(1000);
+                // sleep(1000) -- for unistd.h (linux)
             }
-            cout << "\n"; */
+            cout << "\n";
         }
     }
 }

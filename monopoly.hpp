@@ -8,8 +8,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <climits>
-#include <chrono>
-#include <thread>
+#include <windows.h>
+// #include <unistd.h> -- for linux
+
+// #include <chrono>
+// #include <thread>
 
 using namespace std;
 
