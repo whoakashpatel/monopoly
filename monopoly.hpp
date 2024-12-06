@@ -23,7 +23,6 @@ class Dice {
 
 class Property;
 
-
 class Player {
     private:
         int id;
@@ -38,6 +37,8 @@ class Player {
     public:
         Player(int id, string name, int initPlayerCash) : id(id), name(name), cash(initPlayerCash) {}
         void move(int steps);
+        void operator++();
+        void operator+=(int steps);
         void printDetails();
 
     friend class Bank;
@@ -50,7 +51,6 @@ class Player {
 
 
 class Bank;
-
 
 class Tile {
     protected:
@@ -84,7 +84,7 @@ class Jail : public Tile {
         int fine;
 
     public:
-        Jail(int fine) : fine(fine) {}
+        Jail(int fine = 500);
         void landOn(Player &player, vector<Player> &players, Bank &bank) override;
 };
 
@@ -124,6 +124,8 @@ class Board {
 
     public:
         Board();
+        Board(vector<Tile*> tiles) : tiles(tiles) {}
+        ~Board();
 
     friend class Game;
 };
@@ -138,7 +140,7 @@ class Game {
         Bank bank;
 
     public:
-        Game(int playerCount = 2);
+        Game(int playerCount);
         void play();
 };
 

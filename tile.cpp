@@ -28,6 +28,8 @@ void Property :: landOn(Player &player, vector<Player> &players, Bank &bank) {
         int reqdRent = (1 + players[owner].hasMonopoly) * rent;
         cout << "This place is owned, you need to pay a rent of " << reqdRent << " to " << players[owner].name << ".\n";
         if(player.cash < reqdRent) {
+            cout << "Available cash: " << player.cash << "\n";
+            cout << "You don't have enough cash! mortgaging a property...\n";
             bank.mortgageProperty(player, players);
         }
         if(player.cash > 0) {
@@ -52,6 +54,13 @@ bool Property :: checkMonopoly(Player &player) {
 
 // Jail Class Definitions
 
+Jail :: Jail(int fine) : fine(fine) {
+    while(this -> fine < 100) {
+        cout << "Enter a value (>=100): ";
+        cin >> this -> fine;
+    }
+}
+
 void Jail :: landOn(Player &player, vector<Player> &players, Bank &bank) {
     cout << "OOPS you ran into jail for a crime!\n";
     cout << "You will be charged with " << fine << " fine!\n";
@@ -72,6 +81,8 @@ Chance :: Chance() {
                 "Pay 500 Income Tax",
                 "Go back 10 steps",
                 "Collect 500 from bank"};
+
+    srand(time(0));
 }
 
 void Chance :: landOn(Player &player, vector<Player> &players, Bank &bank) {

@@ -1,14 +1,19 @@
 #include "monopoly.hpp"
 
 Game :: Game(int playerCount) : playerCount(playerCount) {
-    if(playerCount < 2 || playerCount > 8) {
-        cout << "Invalid player count, setting player count to 2...\n";
-        playerCount = 2;
+    while(this -> playerCount < 2 || this -> playerCount > 8) {
+        cout << "Enter valid player count (2-8): ";
+        cin >> this -> playerCount;
     }
 
     int initPlayerCash;
     cout << "Enter the amount of cash each player should start with: ";
     cin >> initPlayerCash;
+
+    while(initPlayerCash < 5000) {
+        cout << "Enter a valid amount (>=5000): ";
+        cin >> initPlayerCash;
+    }
 
     for (int i = 0; i < playerCount; ++i) {
         string playerName;

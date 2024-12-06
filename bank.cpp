@@ -1,10 +1,7 @@
 #include "monopoly.hpp"
 
 void Bank :: mortgageProperty(Player &player, vector<Player> &players) {
-    cout << "Available cash: " << player.cash << "\n";
-    cout << "You don't have enough cash! mortgaging a property...\n";
     cout << "------------------------------------------\n";
-
     if(player.propertiesBought.size() == 0) {
         cout << "You don't have enough cash to pay or properties to mortgage!\n";
         cout << "You're bankrupt!\n";

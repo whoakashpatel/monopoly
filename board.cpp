@@ -42,3 +42,9 @@ Board :: Board() {
     tiles.push_back(new Property("Ellora Caves", "Orange", 2500, 250));
     tiles.push_back(new Chance());
 }
+
+Board :: ~Board() {
+    for(Tile* tile : tiles) {
+        delete tile;
+    }
+}
