@@ -7,112 +7,137 @@
 #include <map>
 #include <cstdlib>
 #include <ctime>
+#include <climits>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
+
 class Dice {
     public:
+        Dice();
         int roll();
 };
 
+
 class Property;
 
+
 class Player {
-    public:
+    private:
         int id;
         string name;
-        int currentLocation;
+        int currentLocation = 0;
         int cash;
-        vector<Property*> propertiesBought;
-        vector<Property*> propertiesMortgaged;
-        // map<int, int> denominations; // will implement having different denominations for Player class later
-        bool hasMonopoly;
-        bool hasPaidTax;
+        vector<Property> propertiesBought;
+        vector<Property> propertiesMortgaged;
+        bool hasMonopoly = false;
+        bool hasPaidTax = false;
 
-        Player(int id, string name) : id(id), name(name), currentLocation(0), cash(15000), hasMonopoly(false) {}
+    public:
+        Player(int id, string name, int initPlayerCash) : id(id), name(name), cash(initPlayerCash) {}
         void move(int steps);
         void printDetails();
+
+    friend class Bank;
+    friend class Property;
+    friend class Jail;
+    friend class Chance;
+    friend class IncomeTax;
+    friend class Game;
 };
 
-// I'm using Tile as an abstract class here, although I might add attributes/methods later
+
+class Bank;
+
+
 class Tile {
-    public:
-        virtual void landOn(Player &p, vector<Player> &players) = 0;
+    protected:
+        virtual void landOn(Player &player, vector<Player> &players, Bank &bank) = 0;
+
+    friend class Game;
 };
+
 
 class Property : public Tile {
-    public:
+    private:
         string name;
         string color;
         int price;
         int rent;
         int owner;
 
+    public:
         Property(string name, string color, int price, int rent) : name(name), color(color), price(price), rent(rent), owner(-1) {}
-        void landOn(Player &p, vector<Player> &players) override;
-        bool checkMonopoly(Player &p);
+        void landOn(Player &player, vector<Player> &players, Bank &bank) override;
+        bool checkMonopoly(Player &player);
+
+    friend class Bank;
+    friend class Player;
+    friend class Game;
 };
+
 
 class Jail : public Tile {
-    public:
+    private:
         int fine;
 
+    public:
         Jail(int fine) : fine(fine) {}
-        void landOn(Player &p, vector<Player> &players) override;
+        void landOn(Player &player, vector<Player> &players, Bank &bank) override;
 };
+
 
 class Chance : public Tile {
-    public:
+    private:
         vector<string> chances;
 
+    public:
         Chance();
-        void landOn(Player &p, vector<Player> &players) override;
+        void landOn(Player &player, vector<Player> &players, Bank &bank) override;
 };
 
+
 class IncomeTax : public Tile {
-    public:
+    private:
         int firstTimeTax;
         int subsequentTax;
 
+    public:
         IncomeTax(int firstTimeTax, int subsequentTax) : firstTimeTax(firstTimeTax), subsequentTax(subsequentTax) {}
-        void landOn(Player &p, vector<Player> &players) override;
+        void landOn(Player &player, vector<Player> &players, Bank &bank) override;
 };
 
-/*
-    class Bank {
+
+class Bank {
     public:
-        map<int, int> denominations;
+        void mortgageProperty(Player &player, vector<Player> &players);
+        void renewMortgage(Player &player);
+};
 
-        Bank() {
-            denominations[10000] = 10;
-            denominations[1000] = 20;
-            denominations[500] = 30;
-            denominations[100] = 50;
-            denominations[50] = 100;
-        }
-
-        void provideChange(int amount) {
-            // will finish this in final version
-        }
-    };
-*/
 
 class Board {
-    public:
+    private:
         vector<Tile*> tiles;
         vector<Player> players;
 
+    public:
         Board();
+
+    friend class Game;
 };
 
+
 class Game {
-    public:
+    private:
         int playerCount;
         vector<Player> players;
         Board board;
         Dice dice;
-        // Bank bank; // will implement later
+        Bank bank;
 
+    public:
         Game(int playerCount = 2);
         void play();
 };
