@@ -4,6 +4,8 @@
 
 void Property :: landOn(Player &player, vector<Player> &players, Bank &bank) {
     cout << "You've arrived " << name << "!\n";
+    Sleep(1000);
+
     if(owner == -2) {
         cout << "This property is mortgaged!, you needn't pay rent...\n";
     }
@@ -29,7 +31,6 @@ void Property :: landOn(Player &player, vector<Player> &players, Bank &bank) {
         cout << "This place is owned, you need to pay a rent of " << reqdRent << " to " << players[owner].name << ".\n";
         if(player.cash < reqdRent) {
             cout << "Available cash: " << player.cash << "\n";
-            cout << "You don't have enough cash! mortgaging a property...\n";
             bank.mortgageProperty(player, players);
         }
         if(player.cash > 0) {

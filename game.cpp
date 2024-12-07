@@ -25,17 +25,19 @@ Game :: Game(int playerCount) : playerCount(playerCount) {
 
 void Game :: play() {
     cout << "------------------------------------------\n";
-    cout << "Starting the game";
-    for(int i = 0; i < 4; i++) {
-        cout << ".";
-        Sleep(1000);
-        // sleep(1000) -- for unistd.h (linux)
-    }
-    cout << "\n";
-    cout << "------------------------------------------\n";
+    cout << "Starting the game\n";
 
     while (true) {
         for (Player &player : players) {
+            cout << "------------------------------------------\n\n";
+
+            for(int i = 0; i < 4; i++) {
+                cout << ".";
+                Sleep(1000);
+                // sleep(1000) -- for unistd.h (linux)
+            }
+            cout << "\n\n";
+
             if(player.cash < 0) {
                 for(Property& prop : player.propertiesMortgaged) {
                     prop.owner = -1;
@@ -67,14 +69,20 @@ void Game :: play() {
             
             cout << "rolling dice: ";
             int rollResult = dice.roll();
+            
+            Sleep(1000);
 
             player.move(rollResult);
             cout << player.name << " has moved to tile " << player.currentLocation + 1 << ".\n";
             
             cout << "------------------------------------------\n";
+            
+            Sleep(1000);
 
             Tile *currentTile = board.tiles[player.currentLocation];
             currentTile->landOn(player, players, bank);
+            
+            Sleep(1000);
 
             if (player.cash >= 0) {
                 int minRenewalPrice = INT_MAX;
@@ -90,20 +98,13 @@ void Game :: play() {
                     if(ch == 'y') {
                         bank.renewMortgage(player);
                     }
+                    Sleep(1000);
                 }
 
                 cout << "------------------------------------------\n";
+
                 player.printDetails();
             }
-
-            cout << "------------------------------------------\n";
-
-            for(int i = 0; i < 4; i++) {
-                cout << ".";
-                Sleep(1000);
-                // sleep(1000) -- for unistd.h (linux)
-            }
-            cout << "\n";
         }
     }
 }

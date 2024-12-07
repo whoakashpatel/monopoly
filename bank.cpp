@@ -10,6 +10,8 @@ void Bank :: mortgageProperty(Player &player, vector<Player> &players) {
         return;
     }
 
+    cout << "You don't have enough cash! mortgaging a property...\n";
+
     cout << "properties bought: ";
     for (Property &property : player.propertiesBought) {
         cout << property.name << "(" << property.price << ")" << " ";
